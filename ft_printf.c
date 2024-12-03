@@ -6,7 +6,7 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2024/12/03 03:38:36 by restevez         ###   ########.fr       */
+/*   Updated: 2024/12/03 04:25:33 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,30 @@ string) produced by a signed conversion.
 a  signed  conversion. By default, a sign is used only for negative numbers.
 A + overrides a space if both are used.
 */
+#include <stdio.h>
+
 int	main(int argc, char *argv[])
 {
-	if (argc < 3)
+	if (argc < 2)
 		return (1);
-	ft_printf(argv[1], argv[2]);
+	printf("42_printf prints: %d",
+		ft_printf(argv[1], 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
 	return (0);
 }
 
 int	ft_printf(const char *str, ...)
 {
-	return (0);
+	int		i;
+	int		sum;
+	va_list	args;
+
+	va_start(args, str);
+	i = -1;
+	sum = 0;
+	while (++i < 10)
+	{
+		sum += va_arg(args, int);
+	}
+	va_end(args);
+	return (sum);
 }
