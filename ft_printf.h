@@ -6,12 +6,13 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 04:22:08 by restevez          #+#    #+#             */
-/*   Updated: 2024/12/03 04:28:25 by restevez         ###   ########.fr       */
+/*   Updated: 2024/12/03 13:40:53 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 # include <stdarg.h>
+# include "libft.h"
 
 #endif
