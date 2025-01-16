@@ -6,7 +6,7 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/10 04:10:59 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/10 23:48:17 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ Compile: ccs utils.c ft_printf.c libft.a
 		Integer: %i, hex: %x, HEX: %X" "O" "Alfabeto" "a" 42 10 12 42
 */
 #include <stdio.h>
+#include <limits.h>
 
 int	main(int argc, char *argv[])
 {
@@ -95,13 +96,13 @@ int	main(int argc, char *argv[])
 		return (1);
 	if (ft_memcmp(argv[1], "TP", 2) == 0)
 	{
-		printf("Teste %%p: \n");
+		printf("Test %%p: \n");
 		printf("\n42 Return: %d\n\n", ft_printf(argv[2], &ptr));
 		printf("\nPrintf Return: %d\n", printf("%p", &ptr));
 	}
 	else if (ft_memcmp(argv[1], "TN", 2) == 0)
 	{
-		printf("Teste %%d: \n");
+		printf("Test %%d: \n");
 		printf("\n42 Return: %d\n\n", ft_printf(argv[2], 1));
 		printf("\nPrintf Return: %d", printf("%d", 1));
 	}
@@ -109,7 +110,7 @@ int	main(int argc, char *argv[])
 	{
 		if (!argv[3] && !argv[4])
 			return (1);
-		printf("%%p Teste %%s %%d: \n");
+		printf("%%p Test %%s %%d: \n");
 		printf("\n42 Return: %d\n\n", ft_printf(argv[2], argv[3],
 				argv[3], ft_atoi(argv[4])));
 		printf("\nPrintf Return: %d", printf(argv[2], argv[3],
@@ -129,7 +130,7 @@ int	main(int argc, char *argv[])
 	{
 		if (!argv[3] && !argv[4])
 			return (1);
-		printf("Teste %%s %%s: \n");
+		printf("Test %%s %%s: \n");
 		printf("\n42 Return: %d\n\n", ft_printf(argv[2], argv[3], argv[4]));
 		printf("\nPrintf Return: %d", printf(argv[2], argv[3], argv[4]));
 	}
@@ -137,13 +138,73 @@ int	main(int argc, char *argv[])
 	{
 		if (!argv[3])
 			return (1);
-		printf("Teste %%s: \n");
+		printf("Test %%s: \n");
 		printf("\n42 Return: %d\n\n", ft_printf(argv[2], argv[3]));
 		printf("\nPrintf Return: %d", printf(argv[2], argv[3]));
 	}
+	else if (ft_memcmp(argv[1], "TXX", 3) == 0)
+	{
+		ft_printf("%u %u 100%% %x %X %x %X\n", 0, 30000000, 255, 255, -255, -255);
+		printf("%u %u 100%% %x %X %x %X\n", 0, 30000000, 255, 255, -255, -255);
+	}
+	else if (ft_memcmp(argv[1], "TW", 2) == 0)
+	{
+		int x;
+
+		ft_printf("%c %s %d %p %u 100%% %x %X %x %X\n", 'a', "Texto", INT_MAX, (void *)0, 30000000, 255, 255, -255, -255);
+		printf("%c %s %d %p %u 100%% %x %X %x %X\n", 'a', "Texto", INT_MAX, (void *)0, 30000000, 255, 255, -255, -255);
+		x = ft_printf("\n\n%c %s %d %p %u 100%% %x %X %x %X\n", 'a', "Texto", INT_MAX, (void *)0, 30000000, 255, 255, -255, -255);
+		ft_printf("%d\n", x);
+		printf("%d\n", x);
+		printf("%p\n", &x);
+		ft_printf("%p\n", &x);
+		printf("%d\n", INT_MIN);
+		ft_printf("%d\n", INT_MIN);
+		printf(NULL);
+		ft_printf(NULL);
+		x = printf(NULL);
+		printf("%d\n", x);
+		x = ft_printf(NULL);
+		printf("%d\n", x);
+		printf("%u\n", UINT_MAX);
+		ft_printf("%u\n", UINT_MAX);
+		ft_printf("%s\n", NULL);
+	}
+	else if (ft_memcmp(argv[1], "PNULL", 4) == 0)
+	{
+		printf("Test Pointer NULL: \n");
+		printf("\n42 Return: %d\n\n", ft_printf("%p", NULL));
+		printf("\nPrintf Return: %d\n\n", printf("%p", NULL));
+	}
+	else if (ft_memcmp(argv[1], "NOTHING", 4) == 0)
+	{
+		printf("Test No String: \n");
+		printf("\n42 Return: %d\n\n", ft_printf(""));
+		printf("\nPrintf Return: %d\n\n", printf(""));
+	}
+	else if (ft_memcmp(argv[1], "NULL", 4) == 0)
+	{
+		printf("Test Nothing: \n");
+		printf("\n42 Return: %d\n\n", ft_printf(NULL));
+		printf("\nPrintf Return: %d\n\n", printf(NULL));
+	}
+	else if (ft_memcmp(argv[1], "SNULL", 5) == 0)
+	{
+		printf("Test Nothing: \n");
+		ft_printf("%s\n", NULL);
+		// printf("%s\n", NULL);
+	}
+	else if (ft_memcmp(argv[1], "TX", 2) == 0)
+	{
+		printf("Test %%x then %%X: \n");
+		printf("\n42 Return: %d\n\n",
+			ft_printf("%x then %X", ft_atoi(argv[2]), ft_atoi(argv[3])));
+		printf("\nPrintf Return: %d\n\n",
+			printf("%x then %X", ft_atoi(argv[2]), ft_atoi(argv[3])));
+	}
 	else
 	{
-		printf("Teste %%c %%s %%p %%d %%i %%x %%X: \n");
+		printf("Test %%c %%s %%p %%d %%i %%x %%X: \n");
 		printf("\n42 Return: %d\n\n", ft_printf(argv[2],
 				argv[3][0], argv[4], argv[5], ft_atoi(argv[6]),
 				ft_atoi(argv[7]), ft_atoi(argv[8]), ft_atoi(argv[9])));
@@ -160,6 +221,8 @@ int	ft_printf(const char *str, ...)
 	int			i;
 	va_list		args;
 
+	if (!str)
+		return (-1);
 	i = -1;
 	va_start(args, str);
 	count_char = 0;
@@ -205,7 +268,7 @@ static int	ft_flag_selector(char flag, va_list *args)
 	if (!ft_strchr(flags, flag))
 		flag = '%';
 	if (flag == 's')
-		return (ft_printf_s(&str, &args));
+		return (ft_printf_s(&args));
 	else if (flag == 'i' || flag == 'd')
 		return (ft_printf_id(&str, &args));
 	else if (flag == 'c')
