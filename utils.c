@@ -6,24 +6,26 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 11:12:49 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/11 04:55:43 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/12 03:53:50 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t	ft_putunbr_base(size_t nbr, char *base, size_t *chr_count)
+size_t	ft_putunbr_base(unsigned int nbr, char *base, size_t chr_count)
 {
-	size_t	len;
+	unsigned int	len;
+	static size_t	count;
 
 	len = 0;
+	count = chr_count;
 	while (base[len] != '\0')
 		len++;
-	*chr_count += 1;
+	count++;
 	if (nbr >= len)
-		ft_putunbr_base(nbr / len, base, chr_count);
+		ft_putunbr_base(nbr / len, base, count);
 	write(1, &base[nbr % len], 1);
-	return (*chr_count);
+	return (count);
 }
 
 size_t	ft_putnbr_base(unsigned int nbr, char *base, size_t *chr_count)
@@ -66,8 +68,6 @@ size_t	ft_printf_id(char **str, va_list **args)
 
 size_t	ft_printf_u(va_list **args)
 {
-	size_t	chr_count;
-
 	return (ft_putunbr_base(va_arg(**args, unsigned int),
-			"0123456789", &chr_count));
+			"0123456789", 0));
 }

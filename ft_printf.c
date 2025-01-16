@@ -6,7 +6,7 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/11 04:58:55 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/12 03:54:19 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ string) produced by a signed conversion.
 a  signed  conversion. By default, a sign is used only for negative numbers.
 A + overrides a space if both are used.
 
-Compile: ccs utils.c utils_hex.c ft_printf.c libft.a
+Compile: ccs utils.c utils_hex.c ft_printf.c libftprintf.a
 */
 /*
 	./a "" "Char: %c, String: %s, Pointer: %p, Decimal: %d,
@@ -91,6 +91,7 @@ Compile: ccs utils.c utils_hex.c ft_printf.c libft.a
 int	main(int argc, char *argv[])
 {
 	char	*ptr;
+	int		x;
 
 	if (argc < 2)
 		return (1);
@@ -151,16 +152,14 @@ int	main(int argc, char *argv[])
 	}
 	else if (ft_memcmp(argv[1], "TW", 2) == 0)
 	{
-		int x;
-
 		ft_printf("%c %s %d %p %p %u 100%% %x %X %x %X\n",
 			'a', "Texto", INT_MAX, (void *)0, (void *) 30000000,
-				30000000, 255, 255, -255, -255);
+			30000000, 255, 255, -255, -255);
 		printf("%c %s %d %p %p %u 100%% %x %X %x %X\n",
 			'a', "Texto", INT_MAX, (void *)0, (void *) 30000000,
-				30000000, 255, 255, -255, -255);
+			30000000, 255, 255, -255, -255);
 		x = ft_printf("\n\n%c %s %d %p %p %u 100%% %x %X %x %X\n",
-			'a', "Texto", INT_MAX, (void *)0, (void *) 30000000,
+				'a', "Texto", INT_MAX, (void *)0, (void *) 30000000,
 				30000000, 255, 255, -255, -255);
 		ft_printf("%d\n", x);
 		printf("%d\n", x);
@@ -200,8 +199,7 @@ int	main(int argc, char *argv[])
 	{
 		printf("Test Nothing: \n");
 		ft_printf("%s\n", NULL);
-		printf("%s\n", NULL); -> printf won't compile
-		 cause doesn't match the type
+		// printf won't compile because diff type than specified
 	}
 	else if (ft_memcmp(argv[1], "TX", 2) == 0)
 	{
@@ -210,6 +208,14 @@ int	main(int argc, char *argv[])
 			ft_printf("%x then %X", ft_atoi(argv[2]), ft_atoi(argv[3])));
 		printf("\nPrintf Return: %d\n\n",
 			printf("%x then %X", ft_atoi(argv[2]), ft_atoi(argv[3])));
+	}
+	else if (ft_memcmp(argv[1], "TU", 2) == 0)
+	{
+		printf("Test %%u then %%u: \n");
+		printf("\n42 Return: %d\n\n",
+			ft_printf("%u then %u", -1, -99));
+		printf("\nPrintf Return: %d\n\n",
+			printf("%u then %u", -1, -99));
 	}
 	else
 	{
@@ -250,23 +256,6 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (count_char);
 }
-
-/*
-static int	ft_count_occr_percent(const char *str)
-{
-	size_t	i;
-	size_t	count;
-
-	i = -1;
-	count = 0;
-	while (str[++i])
-	{
-		if (str[i] == '%' && ft_strchr("cspdiuxX%", str[++i]))
-			count++;
-	}
-	return (count);
-}
- */
 
 static int	ft_flag_selector(char flag, va_list *args)
 {
