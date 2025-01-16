@@ -6,14 +6,15 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2024/12/05 17:33:41 by restevez         ###   ########.fr       */
+/*   Updated: 2024/12/08 07:51:14 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 int			ft_printf(const char *str, ...);
-static int	ft_count_occr_percent(const char *str);
+// static int	ft_count_occr_percent(const char *str);
+static int	ft_count_digits(int n);
 
 /* ft_printf(str, infinite):
 • Don’t implement the buffer management of the original printf().
@@ -86,7 +87,7 @@ int	main(int argc, char *argv[])
 	if (argc < 2)
 		return (1);
 	printf("42_printf prints: %d",
-		ft_printf(argv[1], 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+		ft_printf(argv[1], "123", 10000, 100));
 	return (0);
 }
 
@@ -97,23 +98,33 @@ int	main(int argc, char *argv[])
 */
 int	ft_printf(const char *str, ...)
 {
-	int		sum;
-	int		i;
-	va_list	args;
-	int		occr;
+	static int	count_char;
+	int			i;
+	va_list		args;
 
-	va_start(args, str);
-	sum = 0;
 	i = -1;
-	occr = ft_count_occr_percent(str);
-	while (++i < occr)
+	va_start(args, str);
+	count_char = 0;
+	while (str[++i])
 	{
-		sum += va_arg(args, int);
+		if (str[i] == '%')
+		{
+			if (str[i + 1] == 's')
+				count_char += ft_strlen(va_arg(args, char *));
+			else if (str[i + 1] == 'd' || str[i + 1] == 'i')
+				count_char += ft_count_digits(va_arg(args, int));
+			else
+				count_char++;
+			i++;
+		}
+		else
+			count_char++;
 	}
 	va_end(args);
-	return (occr);
+	return (count_char);
 }
 
+/* 
 static int	ft_count_occr_percent(const char *str)
 {
 	size_t	i;
@@ -127,4 +138,17 @@ static int	ft_count_occr_percent(const char *str)
 			count++;
 	}
 	return (count);
+}
+ */
+static int	ft_count_digits(int n)
+{
+	int	digits;
+
+	digits = 0;
+	while (n > 0)
+	{
+		n /= 10;
+		digits++;
+	}
+	return (digits);
 }
