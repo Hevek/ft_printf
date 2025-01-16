@@ -6,7 +6,7 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/10 03:03:48 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/10 04:10:59 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ Using the libtool command is forbidden.
 • Your libftprintf.a has to be created at the root of your repository
 
 You have to implement the following conversions:
-[] %c Prints a single character.
-[] %s Prints a string (as defined by the common C convention).
-[] %p The void * pointer argument has to be printed in hexadecimal format.
-[] %d Prints a decimal (base 10) number.
-[] %i Prints an integer in base 10.
-[] %u Prints an unsigned decimal (base 10) number.
+[x] %c Prints a single character.
+[x] %s Prints a string (as defined by the common C convention).
+[x] %p The void * pointer argument has to be printed in hexadecimal format.
+[x] %d Prints a decimal (base 10) number.
+[x] %i Prints an integer in base 10.
+[x] %u Prints an unsigned decimal (base 10) number.
 [] %x Prints a number in hexadecimal (base 16) lowercase format.
 [] %X Prints a number in hexadecimal (base 16) uppercase format.
-[] %% Prints a percent sign.
+[x] %% Prints a percent sign.
 
 You don’t have to do all the bonuses.
 Bonus list:
@@ -154,11 +154,6 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
-/*
-1) We must receive a string.
-2) We count how many times the symbol "%" is followed by a valid flag.
-3) That will be our counter to control the loop
-*/
 int	ft_printf(const char *str, ...)
 {
 	static int	count_char;
