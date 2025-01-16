@@ -6,7 +6,7 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/12 03:54:19 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/12 04:59:33 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,9 +213,9 @@ int	main(int argc, char *argv[])
 	{
 		printf("Test %%u then %%u: \n");
 		printf("\n42 Return: %d\n\n",
-			ft_printf("%u then %u", -1, -99));
+			ft_printf("%u then %u, %u then %u", -1, -99, -200, -50000));
 		printf("\nPrintf Return: %d\n\n",
-			printf("%u then %u", -1, -99));
+			printf("%u then %u, %u then %u", -1, -99, -200, -50000));
 	}
 	else
 	{
