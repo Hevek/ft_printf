@@ -6,13 +6,14 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2024/12/03 04:25:33 by restevez         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:33:41 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_printf(const char *str, ...);
+int			ft_printf(const char *str, ...);
+static int	ft_count_occr_percent(const char *str);
 
 /* ft_printf(str, infinite):
 • Don’t implement the buffer management of the original printf().
@@ -89,19 +90,41 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
+/*
+1) We must receive a string.
+2) We count how many times the symbol "%" is followed by a valid flag.
+3) That will be our counter to control the loop
+*/
 int	ft_printf(const char *str, ...)
 {
-	int		i;
 	int		sum;
+	int		i;
 	va_list	args;
+	int		occr;
 
 	va_start(args, str);
-	i = -1;
 	sum = 0;
-	while (++i < 10)
+	i = -1;
+	occr = ft_count_occr_percent(str);
+	while (++i < occr)
 	{
 		sum += va_arg(args, int);
 	}
 	va_end(args);
-	return (sum);
+	return (occr);
+}
+
+static int	ft_count_occr_percent(const char *str)
+{
+	size_t	i;
+	size_t	count;
+
+	i = -1;
+	count = 0;
+	while (str[++i])
+	{
+		if (str[i] == '%' && ft_strchr("cspdiuxX%", str[++i]))
+			count++;
+	}
+	return (count);
 }
