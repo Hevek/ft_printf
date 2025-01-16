@@ -6,7 +6,7 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/10 23:48:17 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/11 04:26:07 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ string) produced by a signed conversion.
 a  signed  conversion. By default, a sign is used only for negative numbers.
 A + overrides a space if both are used.
 
-Compile: ccs utils.c ft_printf.c libft.a
+Compile: ccs utils.c utils_hex.c ft_printf.c libft.a
 */
 /*
 	./a "" "Char: %c, String: %s, Pointer: %p, Decimal: %d,
@@ -144,16 +144,18 @@ int	main(int argc, char *argv[])
 	}
 	else if (ft_memcmp(argv[1], "TXX", 3) == 0)
 	{
-		ft_printf("%u %u 100%% %x %X %x %X\n", 0, 30000000, 255, 255, -255, -255);
-		printf("%u %u 100%% %x %X %x %X\n", 0, 30000000, 255, 255, -255, -255);
+		ft_printf("%u %u %u %p %x %X %x %X\n", 0, 0, 30000000, (void *) 15, 255, 255, -255, -255);
+		printf("%u %u %u %p %x %X %x %X\n", 0, 0, 30000000, (void *) 15, 255, 255, -255, -255);
 	}
 	else if (ft_memcmp(argv[1], "TW", 2) == 0)
 	{
 		int x;
 
-		ft_printf("%c %s %d %p %u 100%% %x %X %x %X\n", 'a', "Texto", INT_MAX, (void *)0, 30000000, 255, 255, -255, -255);
-		printf("%c %s %d %p %u 100%% %x %X %x %X\n", 'a', "Texto", INT_MAX, (void *)0, 30000000, 255, 255, -255, -255);
-		x = ft_printf("\n\n%c %s %d %p %u 100%% %x %X %x %X\n", 'a', "Texto", INT_MAX, (void *)0, 30000000, 255, 255, -255, -255);
+		ft_printf("%c %s %d %p %p %u 100%% %x %X %x %X\n",
+			'a', "Texto", INT_MAX, (void *)0, (void *) 30000000, 30000000, 255, 255, -255, -255);
+		printf("%c %s %d %p %p %u 100%% %x %X %x %X\n",
+			'a', "Texto", INT_MAX, (void *)0, (void *) 30000000, 30000000, 255, 255, -255, -255);
+		x = ft_printf("\n\n%c %s %d %p %p %u 100%% %x %X %x %X\n", 'a', "Texto", INT_MAX, (void *)0, 30000000, 255, 255, -255, -255);
 		ft_printf("%d\n", x);
 		printf("%d\n", x);
 		printf("%p\n", &x);
@@ -192,7 +194,8 @@ int	main(int argc, char *argv[])
 	{
 		printf("Test Nothing: \n");
 		ft_printf("%s\n", NULL);
-		// printf("%s\n", NULL);
+		/* printf("%s\n", NULL); -> printf won't compile
+		 cause doesn't match the type */
 	}
 	else if (ft_memcmp(argv[1], "TX", 2) == 0)
 	{
