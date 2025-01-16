@@ -6,7 +6,7 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 04:22:08 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/03 11:39:09 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/10 02:25:03 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 # include <stdarg.h>
 # include "libft.h"
 
-void	ft_putnbr_base(unsigned long nbr, char *base);
+size_t	ft_putnbr_base(unsigned long nbr, char *base, size_t *chr_count);
 size_t	ft_printf_s(char **str, va_list **args);
 size_t	ft_printf_id(char **str, va_list **args);
 size_t	ft_printf_p(va_list **args);
+size_t	ft_printf_x(va_list **args, char *base);
+size_t	ft_printf_u(va_list **args);
 
 #endif

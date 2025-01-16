@@ -6,7 +6,7 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/03 11:36:05 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/10 03:03:48 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ Using the libtool command is forbidden.
 • Your libftprintf.a has to be created at the root of your repository
 
 You have to implement the following conversions:
-• %c Prints a single character.
-• %s Prints a string (as defined by the common C convention).
-• %p The void * pointer argument has to be printed in hexadecimal format.
-• %d Prints a decimal (base 10) number.
-• %i Prints an integer in base 10.
-• %u Prints an unsigned decimal (base 10) number.
-• %x Prints a number in hexadecimal (base 16) lowercase format.
-• %X Prints a number in hexadecimal (base 16) uppercase format.
-• %% Prints a percent sign.
+[] %c Prints a single character.
+[] %s Prints a string (as defined by the common C convention).
+[] %p The void * pointer argument has to be printed in hexadecimal format.
+[] %d Prints a decimal (base 10) number.
+[] %i Prints an integer in base 10.
+[] %u Prints an unsigned decimal (base 10) number.
+[] %x Prints a number in hexadecimal (base 16) lowercase format.
+[] %X Prints a number in hexadecimal (base 16) uppercase format.
+[] %% Prints a percent sign.
 
 You don’t have to do all the bonuses.
 Bonus list:
@@ -78,6 +78,12 @@ string) produced by a signed conversion.
 +	A sign (+ or -) should always be placed before a number produced by
 a  signed  conversion. By default, a sign is used only for negative numbers.
 A + overrides a space if both are used.
+
+Compile: ccs utils.c ft_printf.c libft.a
+*/
+/*
+	./a "" "Char: %c, String: %s, Pointer: %p, Decimal: %d,
+		Integer: %i, hex: %x, HEX: %X" "O" "Alfabeto" "a" 42 10 12 42
 */
 #include <stdio.h>
 
@@ -87,8 +93,64 @@ int	main(int argc, char *argv[])
 
 	if (argc < 2)
 		return (1);
-	printf("\n%d", ft_printf(argv[1], &ptr));
-	printf("\n%d", printf("\n%p", &ptr));
+	if (ft_memcmp(argv[1], "TP", 2) == 0)
+	{
+		printf("Teste %%p: \n");
+		printf("\n42 Return: %d\n\n", ft_printf(argv[2], &ptr));
+		printf("\nPrintf Return: %d\n", printf("%p", &ptr));
+	}
+	else if (ft_memcmp(argv[1], "TN", 2) == 0)
+	{
+		printf("Teste %%d: \n");
+		printf("\n42 Return: %d\n\n", ft_printf(argv[2], 1));
+		printf("\nPrintf Return: %d", printf("%d", 1));
+	}
+	else if (ft_memcmp(argv[1], "PTSD", 4) == 0)
+	{
+		if (!argv[3] && !argv[4])
+			return (1);
+		printf("%%p Teste %%s %%d: \n");
+		printf("\n42 Return: %d\n\n", ft_printf(argv[2], argv[3],
+				argv[3], ft_atoi(argv[4])));
+		printf("\nPrintf Return: %d", printf(argv[2], argv[3],
+				argv[3], ft_atoi(argv[4])));
+	}
+	else if (ft_memcmp(argv[1], "TSD", 3) == 0)
+	{
+		if (!argv[3] && !argv[4])
+			return (1);
+		printf("Teste %%s %%d: \n");
+		printf("\n42 Return: %d\n\n", ft_printf(argv[2], argv[3],
+				ft_atoi(argv[4])));
+		printf("\nPrintf Return: %d", printf(argv[2], argv[3],
+				ft_atoi(argv[4])));
+	}
+	else if (ft_memcmp(argv[1], "TSS", 3) == 0)
+	{
+		if (!argv[3] && !argv[4])
+			return (1);
+		printf("Teste %%s %%s: \n");
+		printf("\n42 Return: %d\n\n", ft_printf(argv[2], argv[3], argv[4]));
+		printf("\nPrintf Return: %d", printf(argv[2], argv[3], argv[4]));
+	}
+	else if (ft_memcmp(argv[1], "TS", 2) == 0)
+	{
+		if (!argv[3])
+			return (1);
+		printf("Teste %%s: \n");
+		printf("\n42 Return: %d\n\n", ft_printf(argv[2], argv[3]));
+		printf("\nPrintf Return: %d", printf(argv[2], argv[3]));
+	}
+	else
+	{
+		printf("Teste %%c %%s %%p %%d %%i %%x %%X: \n");
+		printf("\n42 Return: %d\n\n", ft_printf(argv[2],
+				argv[3][0], argv[4], argv[5], ft_atoi(argv[6]),
+				ft_atoi(argv[7]), ft_atoi(argv[8]), ft_atoi(argv[9])));
+		printf("\nPrintf Return: %d", printf(argv[2],
+				argv[3][0], argv[4], argv[5], ft_atoi(argv[6]),
+				ft_atoi(argv[7]), ft_atoi(argv[8]), ft_atoi(argv[9])));
+	}
 	return (0);
 }
 
@@ -102,23 +164,21 @@ int	ft_printf(const char *str, ...)
 	static int	count_char;
 	int			i;
 	va_list		args;
-	char		*flags;
 
 	i = -1;
 	va_start(args, str);
 	count_char = 0;
-	flags = ft_strdup("cspdiuxX%");
 	while (str[++i])
 	{
-		if (str[i + 1] == '\0')
-			return (0);
+		if (str[i + 1] == '\0' && ++count_char)
+			ft_putchar_fd(str[i], 1);
 		else if (str[i] == '%')
-		{
-			count_char += ft_flag_selector(str[i + 1], &args);
-			i++;
-		}
+			count_char += ft_flag_selector(str[++i], &args);
 		else
+		{
+			ft_putchar_fd(str[i], 1);
 			count_char++;
+		}
 	}
 	va_end(args);
 	return (count_char);
@@ -144,20 +204,26 @@ static int	ft_count_occr_percent(const char *str)
 static int	ft_flag_selector(char flag, va_list *args)
 {
 	char	*str;
+	char	*flags;
 
+	flags = ft_strdup("cspdiuxX%");
+	if (!ft_strchr(flags, flag))
+		flag = '%';
 	if (flag == 's')
-	{
 		return (ft_printf_s(&str, &args));
-	}
 	else if (flag == 'i' || flag == 'd')
-	{
 		return (ft_printf_id(&str, &args));
-	}
 	else if (flag == 'c')
 		ft_putchar_fd(va_arg(*args, int), 1);
 	else if (flag == '%')
 		ft_putchar_fd('%', 1);
 	else if (flag == 'p')
 		return (ft_printf_p(&args));
+	else if (flag == 'u')
+		return (ft_printf_u(&args));
+	else if (flag == 'x')
+		return (ft_printf_x(&args, "0123456789abcdef"));
+	else if (flag == 'X')
+		return (ft_printf_x(&args, "0123456789ABCDEF"));
 	return (1);
 }
