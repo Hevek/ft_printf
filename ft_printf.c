@@ -6,17 +6,14 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/03 11:04:41 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/03 11:36:05 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 int			ft_printf(const char *str, ...);
-// static int	ft_count_occr_percent(const char *str);
-// static int	ft_count_digits(int n);
 static int	ft_flag_selector(char flag, va_list *args);
-static void	ft_putnbr_base(unsigned long nbr, char *base);
 
 /* ft_printf(str, infinite):
 • Don’t implement the buffer management of the original printf().
@@ -147,67 +144,20 @@ static int	ft_count_occr_percent(const char *str)
 static int	ft_flag_selector(char flag, va_list *args)
 {
 	char	*str;
-	int		nbr;
 
 	if (flag == 's')
 	{
-		str = ft_strdup(va_arg(*args, const char *));
-		ft_putstr_fd(str, 1);
-		return (ft_strlen(str));
+		return (ft_printf_s(&str, &args));
 	}
-	else if (flag == 'd' || flag == 'i')
+	else if (flag == 'i' || flag == 'd')
 	{
-		nbr = va_arg(*args, int);
-		str = ft_itoa(nbr);
-		ft_putstr_fd(str, 1);
-		return (ft_strlen(str));
+		return (ft_printf_id(&str, &args));
 	}
 	else if (flag == 'c')
 		ft_putchar_fd(va_arg(*args, int), 1);
 	else if (flag == '%')
 		ft_putchar_fd('%', 1);
 	else if (flag == 'p')
-	{
-		ft_putstr_fd("0x", 1);
-		ft_putnbr_base(va_arg(*args, unsigned long),
-			"0123456789abcdef");
-		return (15);
-	}
+		return (ft_printf_p(&args));
 	return (1);
-}
-
-static int	ft_verify_valid_base(char *base, int len)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	if (len <= 1)
-		return (0);
-	while (base[++i] != '\0')
-	{
-		j = i + 1;
-		while (base[j] != '\0')
-		{
-			if (base[i] == base[j++])
-				return (0);
-		}
-		if (base[i] == '+' || base[i] == '-')
-			return (0);
-	}
-	return (1);
-}
-
-static void	ft_putnbr_base(unsigned long nbr, char *base)
-{
-	unsigned long	len;
-
-	len = 0;
-	while (base[len] != '\0')
-		len++;
-	if (!ft_verify_valid_base(base, len))
-		return ;
-	if (nbr > len - 1)
-		ft_putnbr_base(nbr / len, base);
-	write(1, &base[nbr % len], 1);
 }

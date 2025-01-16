@@ -6,13 +6,14 @@
 #    By: restevez <restevez@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/30 02:44:13 by restevez          #+#    #+#              #
-#    Updated: 2024/11/30 02:47:52 by restevez         ###   ########.fr        #
+#    Updated: 2025/01/03 11:37:18 by restevez         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-SRC =
+SRC = ft_printf.c \
+		utils.c
 
 CC = cc
 
@@ -20,7 +21,8 @@ FLAGS = -Wall -Wextra -Werror
 
 OBJECTS = $(SRC:%.c=%.o)
 
-INCLUDES = 	ft_printf.h
+INCLUDES = 	libft/libft.h \
+			ft_printf.h
 
 RM = rm -f
 
