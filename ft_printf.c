@@ -6,7 +6,7 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 02:46:00 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/12 04:59:33 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/12 06:15:10 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,10 +260,8 @@ int	ft_printf(const char *str, ...)
 static int	ft_flag_selector(char flag, va_list *args)
 {
 	char	*str;
-	char	*flags;
 
-	flags = ft_strdup("cspdiuxX%");
-	if (!ft_strchr(flags, flag))
+	if (!ft_strchr("cspdiuxX%", flag))
 		flag = '%';
 	if (flag == 's')
 		return (ft_printf_s(&args));

@@ -6,27 +6,11 @@
 /*   By: restevez <restevez@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 11:12:49 by restevez          #+#    #+#             */
-/*   Updated: 2025/01/12 03:53:50 by restevez         ###   ########.fr       */
+/*   Updated: 2025/01/12 06:18:33 by restevez         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-size_t	ft_putunbr_base(unsigned int nbr, char *base, size_t chr_count)
-{
-	unsigned int	len;
-	static size_t	count;
-
-	len = 0;
-	count = chr_count;
-	while (base[len] != '\0')
-		len++;
-	count++;
-	if (nbr >= len)
-		ft_putunbr_base(nbr / len, base, count);
-	write(1, &base[nbr % len], 1);
-	return (count);
-}
 
 size_t	ft_putnbr_base(unsigned int nbr, char *base, size_t *chr_count)
 {
@@ -59,15 +43,21 @@ size_t	ft_printf_s(va_list **args)
 size_t	ft_printf_id(char **str, va_list **args)
 {
 	int		nbr;
+	size_t	len;
 
 	nbr = va_arg(**args, int);
 	*str = ft_itoa(nbr);
+	len = ft_strlen(*str);
 	ft_putstr_fd(*str, 1);
-	return (ft_strlen(*str));
+	free(*str);
+	return (len);
 }
 
 size_t	ft_printf_u(va_list **args)
 {
-	return (ft_putunbr_base(va_arg(**args, unsigned int),
-			"0123456789", 0));
+	size_t	chr_count;
+
+	chr_count = 0;
+	return (ft_putnbr_base(va_arg(**args, unsigned int),
+			"0123456789", &chr_count));
 }
